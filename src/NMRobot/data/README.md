@@ -1,2 +1,0 @@
-# NMRobot
-Balancing Robot Platform 
