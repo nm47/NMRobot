@@ -1,4 +1,4 @@
-#include <MPU6050.h>
+#include "JJ_MPU6050_DMP_6Axis.h"
 
 class mpu
 {
