@@ -1,29 +1,39 @@
 #include "mpu.hpp"
-#include <SimpleKalmanFilter.h>
 
 #define OUTPUT_READABLE_ACCELGYRO
 
 //Kalman parameters
-float e_mea = 4;  //measurement uncertainty
-float e_est = 4;  //estimation uncertainty
-float proccessVariance = .01; //how fast the value will change (0.001 - .1)
-
-SimpleKalmanFilter kalman(e_mea,e_est,proccessVariance);
 
  void mpu::setup(){
+    dmpOnline = false;
+
     Wire.begin();
-    Serial.begin(115200);
+
+    Serial.println("Initializing I2C devices...");
+    gyro.setClockSource(MPU6050_CLOCK_PLL_ZGYRO);
+    gyro.setFullScaleGyroRange(MPU6050_GYRO_FS_2000);
+    gyro.setFullScaleAccelRange(MPU6050_ACCEL_FS_2);
+    gyro.setDLPFMode(MPU6050_DLPF_BW_20);  //10,20,42,98,188
+    gyro.setRate(4);   // 0=1khz 1=500hz, 2=333hz, 3=250hz 4=200hz
     gyro.setSleepEnabled(false);
-    gyro.initialize();
-    Serial.println(gyro.testConnection() ? "MPU6050 connection successful" : "MPU6050 connection failed");
- 
+    
+    int dmpStatus = gyro.dmpInitialize();
+    Serial.println("Initializing DMP...");
+    
+    if (dmpStatus == 0){
+      gyro.setDMPEnabled(true);
+      dmpOnline = true;
+      Serial.println("DMP Ready");
+    }
+    else{
+      Serial.print(F("DMP initialization failed... (code "));
+      Serial.print(dmpStatus);
+      Serial.println(F(")"));
+    }
+    delay(2000);
 }
 
 bool mpu::tick(){
   int16_t rawValue = gyro.getRotationX();
-  double estimated = kalman.updateEstimate(rawValue);
-  Serial.print(rawValue);
-  Serial.print(",");
-  Serial.print(estimated);
-  Serial.println(",");
+  Serial.println(rawValue);
 }
