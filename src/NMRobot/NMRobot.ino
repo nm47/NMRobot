@@ -6,8 +6,8 @@
 #include "Mpu.hpp"                   // |
 #include "NMbot.hpp"                 // |
 
-#define DIR_PIN_L 9
-#define PUL_PIN_L 8
+#define DIR_PIN_L 8
+#define PUL_PIN_L 9
 #define DIR_PIN_R 6
 #define PUL_PIN_R 7
 
@@ -24,6 +24,9 @@ void setup() {
   pinMode(PUL_PIN_R, OUTPUT);
   pinMode(DIR_PIN_L, OUTPUT);
   pinMode(DIR_PIN_R, OUTPUT);
+
+  digitalWrite(DIR_PIN_L, LOW);
+  digitalWrite(DIR_PIN_R, LOW);
   
   delay(1000);
 }
@@ -37,10 +40,13 @@ void TC3_Handler(){
 
   pullLeft = !pullLeft;
   digitalWrite(PUL_PIN_L, pullLeft);
+  Serial.println(pullLeft);
 }
 
 void TC4Handler(){
   TC_GetStatus(TC1,1);
+  
   pullRight = !pullRight;
   digitalWrite(PUL_PIN_R, pullRight);
+  Serial.println("tick");
 }

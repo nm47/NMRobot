@@ -7,6 +7,7 @@ mpu motion;
 void NMbot::setup(){
     Serial.begin(115200);
     motion.setup();
+    startTimer(TC1, 0, TC3_IRQn, 600); //TC1 channel 0, the IRQ for that channel and the desired frequency
 }
 
 void NMbot::loop(){
