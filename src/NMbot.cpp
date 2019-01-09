@@ -11,7 +11,6 @@ void NMbot::setup(){
 
 void NMbot::loop(){
     if(motion.tick()){
-
     }
 }
 
