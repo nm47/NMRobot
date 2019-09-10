@@ -2,7 +2,7 @@
 
 #include "JJ_MPU6050_DMP_6Axis.h"    // |
 #include <Wire.h>                    // |
-#include <I2Cdev.h>                  // | Arduino (stupidly) demands explicit references to all files used in a project in the ino file...
+#include <I2Cdev.h>                  // | Arduino requires explicit references to all files used in a project in the ino file...
 #include "Mpu.hpp"                   // |
 #include "NMbot.hpp"                 // |
 
