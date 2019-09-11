@@ -2,9 +2,10 @@
 
 #include "JJ_MPU6050_DMP_6Axis.h"    // |
 #include <Wire.h>                    // |
-#include <I2Cdev.h>                  // | Arduino requires explicit references to all files used in a project in the ino file...
+#include <I2Cdev.h>                  // | Arduino demands explicit references to all files used in a project in the ino file...
 #include "Mpu.hpp"                   // |
 #include "NMbot.hpp"                 // |
+#include <PID_v1.h>                  // |
 
 #define DIR_PIN_L 8
 #define PUL_PIN_L 9
@@ -26,9 +27,7 @@ void setup() {
   pinMode(DIR_PIN_R, OUTPUT);
 
   digitalWrite(DIR_PIN_L, LOW);
-  digitalWrite(DIR_PIN_R, LOW);
-  
-  delay(1000);
+  digitalWrite(DIR_PIN_R, HIGH);
 }
 
 void loop() {
@@ -40,13 +39,11 @@ void TC3_Handler(){
 
   pullLeft = !pullLeft;
   digitalWrite(PUL_PIN_L, pullLeft);
-  Serial.println(pullLeft);
 }
 
-void TC4Handler(){
+void TC4_Handler(){
   TC_GetStatus(TC1,1);
   
   pullRight = !pullRight;
   digitalWrite(PUL_PIN_R, pullRight);
-  Serial.println("tick");
 }
